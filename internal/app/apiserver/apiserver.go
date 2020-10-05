@@ -50,9 +50,16 @@ func (s *APIServer) configureLogger() error {
 }
 
 func (s *APIServer) configureRouter() {
+	s.router.HandleFunc("/", s.handleIndex())
 	s.router.HandleFunc("/hello", s.handleHello())
 	s.router.HandleFunc("/postbackGet", s.postbackGet()).Methods("GET")
 	s.router.HandleFunc("/postbackPost", s.postbackPost()).Methods("POST")
+}
+
+func (s *APIServer) handleIndex() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		io.WriteString(w, "index")
+	}
 }
 
 func (s *APIServer) handleHello() http.HandlerFunc {
